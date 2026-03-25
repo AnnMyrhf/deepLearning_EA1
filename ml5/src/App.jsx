@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom' // BrowserRouter direkt importiert
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
+import Bilderkennung from '../pages/Bilderkennung.jsx'
 import Dokumentation from '../pages/Dokumentation.jsx'
 import Diskussion from '../pages/Diskussion.jsx'
 
@@ -12,12 +13,9 @@ function App() {
 
                 <main className="flex-grow-1">
                     <Routes>
-                        {/* Hier kommen nur die URL-Namen rein, KEINE Dateipfade */}
-                        <Route path="/" element={<div>Startseite / Bilderkennung</div>} />
+                        <Route path="/" element={<Bilderkennung />} />
                         <Route path="/diskussion" element={<Diskussion />} />
                         <Route path="/dokumentation" element={<Dokumentation />} />
-
-                        <Route path="*" element={<div>Seite nicht gefunden</div>} />
                     </Routes>
                 </main>
 

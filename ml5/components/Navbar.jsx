@@ -4,7 +4,7 @@ export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
             <div className="container">
-                <NavLink className="navbar-brand fw-bold" to="/">Start</NavLink>
+                <span className="navbar-brand fw-bold" to="/">EA1 – Bilderkennung mit ml5</span>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span className="navbar-toggler-icon"></span>
