@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom' // BrowserRouter direkt importiert
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
-import Dokumentation from "../pages/Dokumentation.jsx";
-import Diskussion from "../pages/Diskussion.jsx";
+import Navbar from '../components/Navbar.jsx'
+import Footer from '../components/Footer.jsx'
+import Dokumentation from '../pages/Dokumentation.jsx'
+import Diskussion from '../pages/Diskussion.jsx'
 
 function App() {
     return (
