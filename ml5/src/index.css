@@ -1,118 +1,223 @@
 /* =========================================
-   DARK MODE (Default / Root)
+   1. THEME-VARIABLEN (Zentrale Steuerung)
    ========================================= */
 
-.text-secondary {
-    --bs-text-opacity: 1;
-    color: #bdd5ec !important;
+/* Dark Mode (Standard) */
+:root {
+    --bg-main: #1a1d20;
+    --text-main: #f8f9fa;
+    --text-secondary: #adb5bd;
+
+    --link-color: #4dabf7;
+    --link-hover: #fff;
+
+    --nav-link-color: #4dabf7;
+    --nav-link-hover:#fff;
+
+    --border-color: #495057;
+    --footer-bg: #1a1d20;
+    --footer-text: #adb5bd;
+
+    /* Gelb für den Dark-Mode Button */
+    --toggle-color: #ffc107;
+    --toggle-hover-bg: #ffc107;
+    --toggle-icon-hover: #495057;
+
+    /* Karten & Container */
+    --card-bg: #212529;
 }
 
-/* Navbar & Brand */
-.navbar-dark .navbar-nav .nav-link,
-.navbar-brand {
-    color: #bdd5ec !important;
+/* Light Mode */
+[data-bs-theme="light"] {
+    --bg-main: #ffffff;
+    --text-main: #212529; /* Dunkel für H1, H2 und Text */
+    --text-secondary: #495057;
+
+    --link-color: #1864ab;
+    --link-hover: #000000;
+
+    --nav-link-color: #1864ab;
+    --nav-link-hover: #000000;
+
+    --border-color: #ced4da;
+    --footer-bg: #f8f9fa;
+    --footer-text: #343a40;
+
+    /* Theme-Toggle im Light Mode */
+    --toggle-color: #6c757d;
+    --toggle-hover-bg: #6c757d;
+    --toggle-icon-hover: #ffffff;
+
+    /* Karten im Light Mode */
+    --card-bg: #f8f9fa;
+}
+
+/* =========================================
+   2. BASIS-STYLES & TYPOGRAFIE
+   ========================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Fix für H1, H2 und text-light Klassen im Light Mode */
+[data-bs-theme="light"] .text-light,
+[data-bs-theme="light"] h1,
+[data-bs-theme="light"] h2 {
+    color: var(--text-main) !important;
+}
+
+/* =========================================
+   3. NAVIGATION & NAVBAR
+   ========================================= */
+
+.navbar-brand,
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--nav-link-color) !important;
     transition: all 0.2s ease;
 }
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-    color: #ffffff !important;
+    color: var(--nav-link-hover) !important;
     font-weight: 700 !important;
 }
 
-.bg-dark {
-    background-color: #1a1d20 !important;
-}
-
-footer, footer p, footer span, footer a {
-    color: #ffffff !important;
-}
-
-/* --- THEME-TOGGLE LOGIK --- */
-#theme-toggle.is-sun {
-    color: #ffc107 !important;
-    border-color: #ffc107 !important;
-    background: transparent !important;
-}
-#theme-toggle.is-sun svg { fill: #ffc107 !important; }
-#theme-toggle.is-sun:hover {
-    background-color: rgba(255, 193, 7, 0.1) !important;
-}
-
-#theme-toggle.is-moon {
-    color: #6c757d !important;
-    border-color: #6c757d !important;
-}
-#theme-toggle.is-moon svg { fill: #6c757d !important; }
-#theme-toggle.is-moon:hover {
-    color: #ffffff !important;
-    background-color: #6c757d !important;
-}
-#theme-toggle.is-moon:hover svg { fill: #ffffff !important; }
-
-.border-secondary {
-    border-color: rgba(189, 213, 236, 0.2) !important;
-}
-
-
 /* =========================================
-   LIGHT MODE (Korrektur für Karten & Buttons)
+   4. LINKS & BUTTONS
    ========================================= */
 
-[data-bs-theme="light"] {
-    background-color: #ffffff;
-    color: #343a40;
+.hover-link {
+    color: var(--link-color) !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
-/* Überschriften-Fix: text-light im Light Mode abdunkeln */
-[data-bs-theme="light"] .text-light {
-    color: #212529 !important;
+.hover-link:hover {
+    color: var(--link-hover) !important;
+    text-decoration: underline !important;
+    transform: translateX(5px);
 }
 
-/* Button-Fix: btn-outline-light im Light Mode dunkel machen */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--link-color);
+    color: white !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 1050;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    background-color: var(--link-hover);
+    color: var(--bg-main) !important;
+    transform: translateY(-5px);
+}
+
+/* Ein Button, der sich dem Theme anpasst */
+.btn-theme-ai {
+    border: 2px solid var(--link-color) !important;
+    color: var(--link-color) !important;
+    background-color: transparent;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover & Aktiv-Zustand: Invertiert die Farben */
+.btn-theme-ai:hover,
+.btn-theme-ai.active {
+    background-color: var(--link-color) !important;
+    color: var(--bg-main) !important; /* Textfarbe wird Hintergrundfarbe */
+}
+
+/* Theme-Toggle Logik */
+#theme-toggle {
+    transition: all 0.3s ease;
+    background-color: transparent !important;
+}
+
+#theme-toggle svg {
+    transition: fill 0.3s ease;
+}
+
+#theme-toggle.is-sun,
+#theme-toggle.is-moon {
+    color: var(--toggle-color) !important;
+    border-color: var(--toggle-color) !important;
+}
+
+#theme-toggle.is-sun svg,
+#theme-toggle.is-moon svg {
+    fill: var(--toggle-color) !important;
+}
+
+/* Hover-Effekte */
+#theme-toggle:hover {
+    background-color: var(--toggle-hover-bg) !important;
+}
+
+#theme-toggle:hover svg {
+    fill: var(--toggle-icon-hover) !important;
+}
+
+/* =========================================
+   5. KARTEN & BOOTSTRAP FIXES
+   ========================================= */
+
+.bg-dark {
+    background-color: var(--card-bg) !important;
+}
+
 [data-bs-theme="light"] .btn-outline-light {
-    color: #343a40 !important;
-    border-color: #343a40 !important;
+    color: var(--text-main) !important;
+    border-color: var(--text-main) !important;
 }
 
 [data-bs-theme="light"] .btn-outline-light:hover {
     color: #ffffff !important;
-    background-color: #343a40 !important;
-    border-color: #343a40 !important;
+    background-color: var(--text-main) !important;
 }
 
-/* Karten & Footer im Light Mode */
-[data-bs-theme="light"] footer,
-[data-bs-theme="light"] footer p,
-[data-bs-theme="light"] footer span,
-[data-bs-theme="light"] footer a {
-    color: #343a40 !important;
+.text-secondary {
+    color: var(--text-secondary) !important;
 }
 
-[data-bs-theme="light"] .text-secondary,
-[data-bs-theme="light"] p,
-[data-bs-theme="light"] span:not(.navbar-brand):not(.badge) {
-    color: #495057 !important;
+.border-secondary {
+    border-color: var(--border-color) !important;
 }
 
-[data-bs-theme="light"] .bg-dark {
-    background-color: #f8f9fa !important;
-    border: 1px solid #dee2e6 !important;
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text) !important;
 }
-
-/* Navbar Light Mode */
-[data-bs-theme="light"] .navbar-brand,
-[data-bs-theme="light"] .navbar-nav .nav-link {
-    color: #495057 !important;
-}
-
-[data-bs-theme="light"] .navbar-nav .nav-link:hover,
-[data-bs-theme="light"] .navbar-nav .nav-link.active {
-    color: #000000 !important;
-    font-weight: 700 !important;
-}
-
 
 /* =========================================
-   ALLGEMEINE STYLES
+   6. UTILITIES
    ========================================= */
+
+.container { max-width: 1100px; }
+.rounded-4 { border-radius: 1rem !important; }
+.shadow-lg { box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: #343a40; border-radius: 10px; }

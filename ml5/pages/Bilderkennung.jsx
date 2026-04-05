@@ -1,103 +1,233 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import ml5 from 'ml5'
 
 export default function Bilderkennung() {
     const [selectedImage, setSelectedImage] = useState(null)
     const [isDragging, setIsDragging] = useState(false)
+    const [isAnalyzing, setIsAnalyzing] = useState(false)
+    const [classifier, setClassifier] = useState(null)
+    const [resultsMap, setResultsMap] = useState({})
+    const [uploadResults, setUploadResults] = useState([])
+    const imageRefs = useRef({})
 
-    // Beispieldaten für die obere Liste
+    useEffect(() => {
+        const model = ml5.imageClassifier('MobileNet', () => {
+            setClassifier(model)
+        })
+    }, [])
+
     const examples = [
-        { id: 1, title: 'Bild 1', img: 'https://via.placeholder.com/400x250', status: 'KORREKT' },
-        { id: 2, title: 'Bild 2', img: 'https://via.placeholder.com/400x250' },
-        { id: 3, title: 'Bild 3', img: 'https://via.placeholder.com/400x250' },
+        { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Dreirad auf einem Kiesweg', status: 'KORREKT' },
+        { id: 2, title: 'Königspinguin', img: '/images/correct/pinguins.jpg', alt: 'Mehrere Kaiserpinguine in der Arktis mit Berglandschaft im Hintergrund', status: 'KORREKT' },
+        { id: 3, title: 'Taxi', img: '/images/correct/taxi.jpg', alt: 'Ein fahrendes Taxi in einer Großstadt', status: 'KORREKT' },
+        { id: 4, title: 'Kaffeebohnen', img: '/images/incorrect/kaffee.jpg', alt: 'Kaffebohnen',status: 'FALSCH' },
+        { id: 5, title: 'Muffin', img: '/images/incorrect/muffin.jpg', alt: 'Blauberrmuffin auf einer grauen Fläche', status: 'FALSCH' },
+        { id: 6, title: 'Wald', img: '/images/incorrect/wald.jpg', alt: 'Wallichtung mit Sonnenstrahlen', status: 'FALSCH' }
     ]
 
-    // Zentrale Funktion für den Bildupload
+    const translateText = async (text) => {
+        try {
+            const sanitizedText = encodeURIComponent(text.split(',')[0])
+            const response = await fetch(`https://api.mymemory.translated.net/get?q=${sanitizedText}&langpair=en|de`)
+            const data = await response.json()
+            return data.responseData.translatedText
+        } catch { return text }
+    }
+
+    const classifyImage = async (imgElement, id = null) => {
+        if (!classifier || !imgElement) return
+        setIsAnalyzing(true)
+        classifier.classify(imgElement, async (results) => {
+            if (results && results.length > 0) {
+                const translatedResults = await Promise.all(
+                    results.map(async (p) => {
+                        const germanLabel = await translateText(p.label)
+                        return { ...p, label: germanLabel }
+                    })
+                )
+                if (id) {
+                    setResultsMap(prev => ({ ...prev, [id]: translatedResults }))
+                } else {
+                    setUploadResults(translatedResults)
+                }
+            }
+            setIsAnalyzing(false)
+        })
+    }
+
     const handleImageUpload = (files) => {
         if (files && files[0]) {
             const reader = new FileReader()
-            reader.onload = (e) => setSelectedImage(e.target.result)
+            reader.onload = (e) => {
+                setSelectedImage(e.target.result)
+                setUploadResults([])
+            }
             reader.readAsDataURL(files[0])
         }
     }
+
+    const AnalysisBox = ({ show, onClose, isAnalyzing, predictions }) => {
+        if (!show) return null;
+        return (
+            <div className="p-4 bg-dark border border-secondary rounded-4 shadow h-100 position-relative d-flex flex-column justify-content-center">
+                <button type="button" className="btn-close btn-close-white position-absolute top-0 end-0 m-3" aria-label="Close" onClick={onClose}></button>
+                <h3 className="h6 fw-bold text-light mb-3 text-uppercase">Ergebnis</h3>
+                {isAnalyzing ? (
+                    <div className="text-center py-3">
+                        <div className="spinner-border spinner-border-sm text-primary mb-2"></div>
+                        <p className="text-secondary small">Bild wird analysiert...</p>
+                    </div>
+                ) : predictions && predictions.length > 0 ? (
+                    predictions.map((p, i) => (
+                        <div key={i} className="mb-3">
+                            <div className="d-flex justify-content-between small mb-1">
+                                <span className="text-light">{p.label}</span>
+                                <span className="text-primary">{(p.confidence * 100).toFixed(1)}%</span>
+                            </div>
+                            <div className="progress" style={{ height: '4px' }}>
+                                <div className="progress-bar bg-primary" style={{ width: `${p.confidence * 100}%` }}></div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-secondary small m-0 text-center">Keine Daten verfügbar</p>
+                )}
+            </div>
+        );
+    };
+
     return (
-        <div className="container py-5 mb-5 pb-5">
+        <div className="container py-5 mb-5">
             <header className="mb-5">
                 <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
-                <p className="lead text-secondary mb-5">
-                    Lade deine eigenen Bilder hoch oder verwende die Beispielbilder, um die automatisierte Bildklassifizierung mit dem ml5.js-Framework und dem vortrainierten MobileNet-Modell zu testen.
+                <p className="lead text-secondary mb-3">
+                    Schaue dir Beispielbilder an oder lade deine eigenen Bilder hoch, um die automatisierte Bildklassifizierung mit dem ml5.js-Framework und dem vortrainierten MobileNet-Modell zu testen.
                 </p>
+                <nav>
+                    <ul className="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→ Beispielbilder analysieren</a></li>
+                        <li><a href="#upload-sektion" className="text-primary text-decoration-none hover-link">→ Eigenes Bild hochladen</a></li>
+                    </ul>
+                </nav>
             </header>
 
-            {/* --- SEKTION 1: Upload (Ohne obere Linie, mit viel Abstand nach unten) --- */}
-            <section className="mt-4 mb-5 pb-4">
-                <h2 className="h4 fw-bold text-light mb-4">Eigenes Bild hochladen</h2>
-                <div
-                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                    onDragLeave={() => setIsDragging(false)}
-                    onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleImageUpload(e.dataTransfer.files); }}
-                    className={`p-5 border rounded-4 text-center transition-all shadow-lg ${
-                        isDragging ? 'border-primary bg-primary bg-opacity-10 scale-102' : 'border-secondary bg-dark bg-opacity-50'
-                    }`}
-                    style={{ borderStyle: 'dashed', borderWidth: '2px', cursor: 'pointer', transition: 'all 0.2s ease-in-out' }}
-                >
-                    <div className="py-4 pointer-events-none">
-                        {selectedImage ? (
-                            <div>
-                                <img src={selectedImage} alt="Vorschau" className="img-fluid rounded-3 shadow mb-3" style={{ maxHeight: '350px' }} />
-                                <div>
-                                    <button
-                                        className="btn btn-sm btn-outline-danger rounded-pill px-4"
-                                        style={{ pointerEvents: 'auto' }}
-                                        onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-                                    >
-                                        Bild entfernen
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="d-flex flex-column align-items-center">
-                                <div className={`mb-4 transition-all ${isDragging ? 'text-primary' : 'text-secondary opacity-25'}`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                    </svg>
-                                </div>
-                                <h4 className="text-light fw-bold">Bild hierher ziehen</h4>
-                                <p className="text-secondary mb-3 small">oder klicke, um eine Datei auszuwählen</p>
-                                <input type="file" className="d-none" id="fileUpload" accept="image/*" onChange={(e) => handleImageUpload(e.target.files)} />
-                                <label htmlFor="fileUpload" className="btn btn-secondary px-4 py-2 rounded-pill fw-bold shadow-sm" style={{ pointerEvents: 'auto', cursor: 'pointer' }}>
-                                    Datei auswählen
-                                </label>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </section>
+            <section id="beispiel-sektion" className="mb-5 pb-5 border-bottom border-secondary border-opacity-25">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="h4 text-light m-0">Beispielbilder klassifizieren</h2>
 
-            {/* --- SEKTION 2: Beispiele (Mit neuer H2 Überschrift) --- */}
-            <section className="mb-5">
-                <h2 className="h4 fw-bold text-light mb-4">Beispielbilder analysieren</h2>
-                <div className="row g-4">
-                    {examples.map((ex) => (
-                        <div key={ex.id} className="col-12">
-                            <div className="row align-items-center bg-dark border border-secondary rounded-3 overflow-hidden g-0 p-3 shadow-sm">
-                                <div className="col-md-5 position-relative">
-                                    {ex.status && <span className="badge bg-success position-absolute m-2 top-0 start-0">{ex.status}</span>}
-                                    <img src={ex.img} alt={ex.title} className="img-fluid rounded-2" />
-                                </div>
-                                <div className="col-md-7 ps-md-4 mt-3 mt-md-0 text-center text-md-start">
-                                    <h3 className="h5 text-light mb-3">{ex.title}</h3>
-                                    <div className="p-4 bg-secondary bg-opacity-10 rounded-3 border border-secondary border-opacity-25">
-                                        <button className="btn btn-outline-light btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm">
-                                            Klassifizieren
-                                        </button>
+                    {/* Der verschobene, dezentere Button */}
+                    {Object.keys(resultsMap).length > 0 && (
+                        <button
+                            className="btn btn-reset-small rounded-pill d-flex align-items-center gap-2"
+                            onClick={() => setResultsMap({})}
+                        >
+                            <span>Alle Ergebenisse zurücksetzen</span>
+                            <span className="fw-bold">✕</span>
+                        </button>
+                    )}
+                </div>
+
+                {examples.map((ex) => {
+                    const hasResult = !!resultsMap[ex.id];
+                    return (
+                        <div key={ex.id} className="row g-4 mb-4 align-items-stretch">
+                            <div className="col-md-7">
+                                <div className={`p-3 rounded-4 border h-100 d-flex flex-column justify-content-center ${hasResult ? 'border-primary bg-primary bg-opacity-10' : 'border-secondary bg-dark'}`}>
+                                    <div className="row align-items-center">
+                                        <div className="col-5">
+                                            <div className="position-relative">
+                                                <img
+                                                    src={ex.img}
+                                                    className="img-fluid rounded-3"
+                                                    alt={ex.alt}
+                                                    ref={el => imageRefs.current[ex.id] = el}
+                                                />
+                                                {hasResult && (
+                                                    <span className={`badge position-absolute top-0 start-0 m-2 ${ex.status === 'KORREKT' ? 'bg-success' : 'bg-danger'}`}>
+                                                        {ex.status}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="col-7">
+                                            <h3 className="h5 text-light mb-3">{ex.title}</h3>
+                                            <button
+                                                className={`btn rounded-pill w-100 btn-theme-ai ${hasResult ? 'active' : ''}`}
+                                                onClick={() => {
+                                                    if (hasResult) {
+                                                        const newMap = { ...resultsMap };
+                                                        delete newMap[ex.id];
+                                                        setResultsMap(newMap);
+                                                    } else {
+                                                        classifyImage(imageRefs.current[ex.id], ex.id);
+                                                    }
+                                                }}
+                                            >
+                                                {hasResult ? 'Zurücksetzen' : 'Analyse starten'}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div className="col-md-5">
+                                <AnalysisBox
+                                    show={hasResult}
+                                    isAnalyzing={isAnalyzing && !resultsMap[ex.id]}
+                                    predictions={resultsMap[ex.id]}
+                                    onClose={() => {
+                                        const newMap = { ...resultsMap };
+                                        delete newMap[ex.id];
+                                        setResultsMap(newMap);
+                                    }}
+                                />
+                            </div>
                         </div>
-                    ))}
+                    );
+                })}
+            </section>
+
+            <section id="upload-sektion" className="mb-5 pb-5">
+                <h2 className="h4 text-light mb-4">Eigenes Bild hochladen</h2>
+                <div className="row g-4 align-items-stretch">
+                    <div className="col-md-7">
+                        <div
+                            className={`p-4 border-2 rounded-4 text-center h-100 d-flex flex-column justify-content-center ${isDragging ? 'bg-primary bg-opacity-10' : 'bg-dark border-secondary'}`}
+                            style={{ borderStyle: 'dashed' }}
+                            onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+                            onDragLeave={() => setIsDragging(false)}
+                            onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleImageUpload(e.dataTransfer.files) }}
+                        >
+                            {selectedImage ? (
+                                <div>
+                                    <img
+                                        src={selectedImage}
+                                        className="img-fluid rounded-3 shadow mb-3"
+                                        alt="Hochgeladenes Bild zur Analyse"
+                                        style={{ maxHeight: '300px' }}
+                                        onLoad={(e) => classifyImage(e.target)}
+                                    />
+                                    <button className="btn btn-sm btn-outline-danger d-block mx-auto rounded-pill" onClick={() => { setSelectedImage(null); setUploadResults([]) }}>
+                                        Bild entfernen
+                                    </button>
+                                </div>
+                            ) : (
+                                <div onClick={() => document.getElementById('fileInput').click()} style={{ cursor: 'pointer' }} className="py-4">
+                                    <p className="text-secondary m-0">Zieh ein Bild hierher oder klicke zum Hochladen</p>
+                                    <input type="file" id="fileInput" className="d-none" accept="image/*" onChange={(e) => handleImageUpload(e.target.files)} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="col-md-5">
+                        <AnalysisBox
+                            show={!!selectedImage}
+                            isAnalyzing={isAnalyzing && uploadResults.length === 0}
+                            predictions={uploadResults}
+                            onClose={() => { setSelectedImage(null); setUploadResults([]) }}
+                        />
+                    </div>
                 </div>
             </section>
         </div>
-        )
+    )
 }
