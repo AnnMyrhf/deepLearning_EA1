@@ -19,40 +19,18 @@ export default function Bilderkennung() {
             reader.readAsDataURL(files[0])
         }
     }
-
     return (
         <div className="container py-5 mb-5 pb-5">
             <header className="mb-5">
-                <h1 className="display-5 fw-bold text-light">Bilderkennung</h1>
-                <p className="text-secondary">Klassifizierung von Bildern mit dem ml5 Framework</p>
+                <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
+                <p className="lead text-secondary mb-5">
+                    Lade deine eigenen Bilder hoch oder verwende die Beispielbilder, um die automatisierte Bildklassifizierung mit dem ml5.js-Framework und dem vortrainierten MobileNet-Modell zu testen.
+                </p>
             </header>
 
-            {/* Liste der Beispiele */}
-            <div className="row g-4 mb-5">
-                {examples.map((ex) => (
-                    <div key={ex.id} className="col-12">
-                        <div className="row align-items-center bg-dark border border-secondary rounded-3 overflow-hidden g-0 p-3 shadow-sm">
-                            <div className="col-md-5 position-relative">
-                                {ex.status && <span className="badge bg-success position-absolute m-2 top-0 start-0">{ex.status}</span>}
-                                <img src={ex.img} alt={ex.title} className="img-fluid rounded-2" />
-                            </div>
-                            <div className="col-md-7 ps-md-4 mt-3 mt-md-0 text-center text-md-start">
-                                <h3 className="h5 text-light mb-3">{ex.title}</h3>
-                                <div className="p-4 bg-secondary bg-opacity-10 rounded-3 border border-secondary border-opacity-25">
-                                    <button className="btn btn-outline-light btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm">
-                                        Klassifizieren
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Optimierter Upload-Bereich */}
-            <section className="mt-5 pt-5 border-top border-secondary">
-                <h2 className="h3 text-light mb-4">Eigenes Bild hochladen & klassifizieren</h2>
-
+            {/* --- SEKTION 1: Upload (Ohne obere Linie, mit viel Abstand nach unten) --- */}
+            <section className="mt-4 mb-5 pb-4">
+                <h2 className="h4 fw-bold text-light mb-4">Eigenes Bild hochladen</h2>
                 <div
                     onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
                     onDragLeave={() => setIsDragging(false)}
@@ -78,7 +56,6 @@ export default function Bilderkennung() {
                             </div>
                         ) : (
                             <div className="d-flex flex-column align-items-center">
-                                {/* Das Upload-Icon für mehr Klarheit */}
                                 <div className={`mb-4 transition-all ${isDragging ? 'text-primary' : 'text-secondary opacity-25'}`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
                                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -96,6 +73,31 @@ export default function Bilderkennung() {
                     </div>
                 </div>
             </section>
+
+            {/* --- SEKTION 2: Beispiele (Mit neuer H2 Überschrift) --- */}
+            <section className="mb-5">
+                <h2 className="h4 fw-bold text-light mb-4">Beispielbilder analysieren</h2>
+                <div className="row g-4">
+                    {examples.map((ex) => (
+                        <div key={ex.id} className="col-12">
+                            <div className="row align-items-center bg-dark border border-secondary rounded-3 overflow-hidden g-0 p-3 shadow-sm">
+                                <div className="col-md-5 position-relative">
+                                    {ex.status && <span className="badge bg-success position-absolute m-2 top-0 start-0">{ex.status}</span>}
+                                    <img src={ex.img} alt={ex.title} className="img-fluid rounded-2" />
+                                </div>
+                                <div className="col-md-7 ps-md-4 mt-3 mt-md-0 text-center text-md-start">
+                                    <h3 className="h5 text-light mb-3">{ex.title}</h3>
+                                    <div className="p-4 bg-secondary bg-opacity-10 rounded-3 border border-secondary border-opacity-25">
+                                        <button className="btn btn-outline-light btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm">
+                                            Klassifizieren
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
         </div>
-    )
+        )
 }

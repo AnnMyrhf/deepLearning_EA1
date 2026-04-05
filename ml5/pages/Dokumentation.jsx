@@ -1,10 +1,7 @@
 export default function Dokumentation() {
     return (
-        <div className="container py-5">
+        <div className="container py-5 mb-5 pb-5">
             <div className="row justify-content-center">
-                {/* Begrenzung auf eine angenehme Lesebreite */}
-                <div className="col-12 col-lg-8">
-
                     {/* Haupt-Header */}
                     <h1 className="display-4 fw-bold text-light mb-4">Dokumentation</h1>
                     <p className="lead text-secondary mb-5">
@@ -36,8 +33,6 @@ export default function Dokumentation() {
                             großzügigen Zeilenabstand, den man im Screenshot sieht.
                         </p>
                     </div>
-
-                </div>
             </div>
         </div>
     )

@@ -1,69 +1,118 @@
+/* =========================================
+   DARK MODE (Default / Root)
+   ========================================= */
+
 .text-secondary {
     --bs-text-opacity: 1;
     color: #bdd5ec !important;
 }
-.navbar-dark .navbar-nav .nav-link {
-    color: #bdd5ec;
-    transition: color 0.3s ease; /* Macht den Übergang weicher */
+
+/* Navbar & Brand */
+.navbar-dark .navbar-nav .nav-link,
+.navbar-brand {
+    color: #bdd5ec !important;
+    transition: all 0.2s ease;
 }
 
-/* 2. Der Zustand beim Hovern */
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: #ffffff;
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #ffffff !important;
+    font-weight: 700 !important;
 }
 
-/* 3. Der Zustand für den aktiven Link (wenn man auf der Seite ist) */
-.navbar-dark .navbar-nav .nav-link.active {
-    color: #ffffff;
-    font-weight: 500; /* Optional: Den aktiven Link etwas fetter machen */
-}
-
-/* 4. Auch das "Start" (navbar-brand) anpassen */
-.navbar-dark .navbar-brand {
-    color: #bdd5ec;
-}
-
-.navbar-dark:hover {
-    color: #ffffff;
-}
-
-/* Container für die Bild-Karten */
 .bg-dark {
-    background-color: #1a1d20 !important; /* Etwas heller als der reine Body-Hintergrund */
+    background-color: #1a1d20 !important;
 }
 
-/* Gestrichelter Rand für den Upload */
-.border-dashed {
-    border-style: dashed !important;
+footer, footer p, footer span, footer a {
+    color: #ffffff !important;
 }
 
-/* Hover Effekt für die Buttons */
-.btn-outline-light:hover {
+/* --- THEME-TOGGLE LOGIK --- */
+#theme-toggle.is-sun {
+    color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    background: transparent !important;
+}
+#theme-toggle.is-sun svg { fill: #ffc107 !important; }
+#theme-toggle.is-sun:hover {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+}
+
+#theme-toggle.is-moon {
+    color: #6c757d !important;
+    border-color: #6c757d !important;
+}
+#theme-toggle.is-moon svg { fill: #6c757d !important; }
+#theme-toggle.is-moon:hover {
+    color: #ffffff !important;
+    background-color: #6c757d !important;
+}
+#theme-toggle.is-moon:hover svg { fill: #ffffff !important; }
+
+.border-secondary {
+    border-color: rgba(189, 213, 236, 0.2) !important;
+}
+
+
+/* =========================================
+   LIGHT MODE (Korrektur für Karten & Buttons)
+   ========================================= */
+
+[data-bs-theme="light"] {
     background-color: #ffffff;
-    color: #212529;
+    color: #343a40;
 }
 
-/* Bild-Anpassung */
-.img-fluid {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    max-height: 250px;
+/* Überschriften-Fix: text-light im Light Mode abdunkeln */
+[data-bs-theme="light"] .text-light {
+    color: #212529 !important;
 }
 
-/* Responsive Anpassung für kleinere Bildschirme */
-@media (max-width: 768px) {
-    .img-fluid {
-        max-height: none;
-    }
-}
-main {
-    padding-bottom: 100px; /* Sicherer Abstand zum Footer auf allen Seiten */
+/* Button-Fix: btn-outline-light im Light Mode dunkel machen */
+[data-bs-theme="light"] .btn-outline-light {
+    color: #343a40 !important;
+    border-color: #343a40 !important;
 }
 
-.scale-102 {
-    transform: scale(1.02);
+[data-bs-theme="light"] .btn-outline-light:hover {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
 }
-.transition-all {
-    transition: all 0.2s ease-in-out;
+
+/* Karten & Footer im Light Mode */
+[data-bs-theme="light"] footer,
+[data-bs-theme="light"] footer p,
+[data-bs-theme="light"] footer span,
+[data-bs-theme="light"] footer a {
+    color: #343a40 !important;
 }
+
+[data-bs-theme="light"] .text-secondary,
+[data-bs-theme="light"] p,
+[data-bs-theme="light"] span:not(.navbar-brand):not(.badge) {
+    color: #495057 !important;
+}
+
+[data-bs-theme="light"] .bg-dark {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Navbar Light Mode */
+[data-bs-theme="light"] .navbar-brand,
+[data-bs-theme="light"] .navbar-nav .nav-link {
+    color: #495057 !important;
+}
+
+[data-bs-theme="light"] .navbar-nav .nav-link:hover,
+[data-bs-theme="light"] .navbar-nav .nav-link.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+
+/* =========================================
+   ALLGEMEINE STYLES
+   ========================================= */
