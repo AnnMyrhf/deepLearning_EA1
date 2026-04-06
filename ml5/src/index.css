@@ -293,10 +293,67 @@ footer {
     border-color: #dc3545 !important; /* Bootstrap danger-red */
 }
 
+/* =========================================
+   6. Drag & Drop
+   ========================================= */
+/* Grundzustand der Drop-Zone */
+.drop-zone {
+    border: 2px dashed var(--border-color); /* Nutzt deine Variable */
+    background-color: var(--card-bg);        /* Nutzt deine Variable */
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+/* Hover-Effekt & Dragging-Zustand */
+.drop-zone:not(.has-image):hover,
+.drop-zone.dragging {
+    border-color: var(--link-color); /* Nutzt dein Theme-Blau */
+    /* Erzeugt einen subtilen Glow in der jeweiligen Link-Farbe */
+    background-color: color-mix(in srgb, var(--link-color), transparent 92%);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon-Farbe und Animation */
+.upload-icon {
+    color: var(--text-secondary);
+}
+
+.drop-zone:hover .upload-icon,
+.drop-zone.dragging .upload-icon {
+    color: var(--link-color);
+}
+
+/* Spezifische Texte im Upload-Bereich */
+.drop-zone p.fw-bold {
+    color: var(--text-main);
+}
+
+/* Zustand wenn ein Bild bereits geladen ist */
+.drop-zone.has-image {
+    border-style: solid;
+    border-color: var(--border-color);
+    background-color: var(--bg-main);
+    cursor: default;
+}
+
+/* Button innerhalb der Dropzone (passt sich an Sektion 4 an) */
+.drop-zone .btn-outline-primary {
+    border-color: var(--link-color);
+    color: var(--link-color);
+}
+
+.drop-zone .btn-outline-primary:hover {
+    background-color: var(--link-color);
+    color: #ffffff;
+}
 
 /* =========================================
-   6. UTILITIES
+   7. UTILITIES
    ========================================= */
 
 .container { max-width: 1100px; }

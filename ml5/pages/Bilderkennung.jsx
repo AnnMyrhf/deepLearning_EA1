@@ -165,7 +165,7 @@ export default function Bilderkennung() {
             <header className="mb-5">
                 <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
                 <p className="lead text-secondary mb-3">
-                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze die sechs Beispielbilder oder lade eigene Fotos hoch, um die Analyse zu starten und sofort Ergebnisse zu erhalte                </p>
+                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze dafür entweder die sechs Beispielbilder oder lade eigene Bilder hoch, um die Analyse zu starten und sofort die Ergebnisse zu sehen.</p>
                 <nav>
                     <ul className="list-unstyled d-flex flex-column gap-2">
                         <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→ Beispielbilder klassifizieren</a></li>
@@ -269,31 +269,82 @@ export default function Bilderkennung() {
             </section>
 
             <section id="upload-sektion" className="mb-5 pb-5">
-                <h2 className="h4 text-light mb-4">Eigenes Bild hochladen</h2>
+                <h2 className="h4 text-emphasis mb-4">Eigenes Bild hochladen</h2>
                 <div className="row g-4 align-items-stretch">
                     <div className="col-md-7">
-                        <div className={`p-4 border-2 rounded-4 text-center h-100 d-flex flex-column justify-content-center ${isDragging ? 'bg-primary bg-opacity-10' : 'bg-dark border-secondary'}`}
-                             style={{ borderStyle: 'dashed', cursor: 'pointer' }}
-                             onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
-                             onDragLeave={() => setIsDragging(false)}
-                             onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleImageUpload(e.dataTransfer.files) }}
-                             onClick={() => !selectedImage && document.getElementById('fileInput').click()}
+                        <div
+                            className={`drop-zone p-5 rounded-4 text-center h-100 d-flex flex-column align-items-center justify-content-center 
+                    ${isDragging ? 'dragging' : ''} ${selectedImage ? 'has-image' : ''}`}
+                            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                            onDragLeave={() => setIsDragging(false)}
+                            onDrop={(e) => {
+                                e.preventDefault();
+                                setIsDragging(false);
+                                handleImageUpload(e.dataTransfer.files);
+                            }}
+                            onClick={() => !selectedImage && document.getElementById('fileInput').click()}
                         >
                             {selectedImage ? (
-                                <div>
-                                    <img src={selectedImage} ref={uploadImageRef} className="img-fluid rounded-3 shadow mb-3" alt="Vorschau" style={{ maxHeight: '300px' }} />
-                                    <button className="btn btn-sm btn-outline-danger d-block mx-auto rounded-pill" onClick={(e) => { e.stopPropagation(); setSelectedImage(null); setUploadResults([]); setIsAnalyzing(false) }}>Bild entfernen</button>
+                                <div className="position-relative w-100">
+                                    <img
+                                        src={selectedImage}
+                                        ref={uploadImageRef}
+                                        className="img-fluid rounded-3 shadow-lg mb-3"
+                                        alt="Vorschau"
+                                        style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                    />
+                                    <button
+                                        className="btn rounded-pill btn-theme-ai px-4 shadow-sm" // Nutzt deine btn-theme-ai Klasse
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSelectedImage(null);
+                                            setUploadResults([]);
+                                            setIsAnalyzing(false);
+                                        }}
+                                    >
+                                        Bild entfernen
+                                    </button>
                                 </div>
                             ) : (
-                                <div className="py-4">
-                                    <p className="text-secondary m-0">Zieh ein Bild hierher oder klicke zum Hochladen</p>
-                                    <input type="file" id="fileInput" className="d-none" accept="image/*" onChange={(e) => handleImageUpload(e.target.files)} />
+                                <div className="upload-content py-2">
+                                    {/* Upload Icon */}
+                                    <div className="upload-icon mb-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                                        </svg>
+                                    </div>
+
+                                    <p className="fw-bold text-emphasis mb-1">Bild auswählen oder ablegen</p>
+                                    <p className="text-secondary small mb-4">JPG, PNG oder WebP bis zu 5 MB</p>
+
+                                    <button className="btn btn-outline-primary rounded-pill px-4 fw-medium shadow-sm">
+                                        Datei auswählen
+                                    </button>
+
+                                    <input
+                                        type="file"
+                                        id="fileInput"
+                                        className="d-none"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageUpload(e.target.files)}
+                                    />
                                 </div>
                             )}
                         </div>
                     </div>
+
                     <div className="col-md-5">
-                        <AnalysisBox show={!!selectedImage} isAnalyzing={isAnalyzing} predictions={uploadResults} onClose={() => { setSelectedImage(null); setUploadResults([]); setIsAnalyzing(false) }} />
+                        <AnalysisBox
+                            show={!!selectedImage}
+                            isAnalyzing={isAnalyzing}
+                            predictions={uploadResults}
+                            onClose={() => {
+                                setSelectedImage(null);
+                                setUploadResults([]);
+                                setIsAnalyzing(false);
+                            }}
+                        />
                     </div>
                 </div>
             </section>
