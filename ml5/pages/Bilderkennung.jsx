@@ -11,6 +11,7 @@ export default function Bilderkennung() {
     const [uploadResults, setUploadResults] = useState([])
     const imageRefs = useRef({})
     const uploadImageRef = useRef(null)
+    const [uploadError, setUploadError] = useState(null)
 
     useEffect(() => {
         const loadModel = async () => {
@@ -112,16 +113,32 @@ export default function Bilderkennung() {
     }
 
     const handleImageUpload = (files) => {
-        if (files && files[0]) {
-            const reader = new FileReader()
-            reader.onload = (e) => {
-                setSelectedImage(e.target.result)
-                setUploadResults([])
-                setIsAnalyzing(true)
-                // Analyse wird im useEffect für das selectedImage getriggert
-            }
-            reader.readAsDataURL(files[0])
+        const file = files[0]
+        if (!file) return
+
+        // Fehler bei neuem Versuch zurücksetzen
+        setUploadError(null)
+
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+        const maxSize = 5 * 1024 * 1024 // 5 MB
+
+        if (!allowedTypes.includes(file.type)) {
+            setUploadError("Ungültiges Format! Bitte lade nur JPG, PNG oder WebP Dateien hoch.")
+            return
         }
+
+        if (file.size > maxSize) {
+            setUploadError("Datei zu groß! Das Bild darf maximal 5 MB groß sein.")
+            return
+        }
+
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            setSelectedImage(e.target.result)
+            setUploadResults([])
+            setIsAnalyzing(true)
+        }
+        reader.readAsDataURL(file)
     }
 
     // Effekt, um die Analyse des hochgeladenen Bildes zu starten, sobald das Bild geladen ist
@@ -165,7 +182,7 @@ export default function Bilderkennung() {
             <header className="mb-5">
                 <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
                 <p className="lead text-secondary mb-3">
-                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze dafür entweder die sechs Beispielbilder oder lade eigene Bilder hoch, um die Analyse zu starten und sofort die Ergebnisse zu sehen.</p>
+                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze dafür entweder die sechs Beispielbilder oder lade eigene Bilder hoch, um automatisch die Analyse zu starten und sofort die Ergebnisse zu sehen.</p>
                 <nav>
                     <ul className="list-unstyled d-flex flex-column gap-2">
                         <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→ Beispielbilder klassifizieren</a></li>
@@ -181,10 +198,10 @@ export default function Bilderkennung() {
 
                     {Object.keys(resultsMap).length > 0 && (
                         <button
-                            className="btn btn-sm btn-outline-secondary rounded-pill px-3"
+                            className="btn-clear-results" // Neue, spezifische Klasse
                             onClick={resetAllResults}
                         >
-                            <span className="me-1">✕</span> Alle Ergebnisse löschen
+                            <span className="me-2">✕</span> Alle Ergebnisse löschen
                         </button>
                     )}
                 </div>
@@ -270,6 +287,20 @@ export default function Bilderkennung() {
 
             <section id="upload-sektion" className="mb-5 pb-5">
                 <h2 className="h4 text-emphasis mb-4">Eigenes Bild hochladen</h2>
+                {/* Fehlermeldung-Container */}
+                {uploadError && (
+                    <div className="alert alert-danger d-flex align-items-center justify-content-between rounded-4 mb-3 border-0 shadow-sm py-2 px-3" role="alert">
+                        <div className="d-flex align-items-center">
+                            <span className="small fw-medium">{uploadError}</span>
+                        </div>
+                        <button
+                            type="button"
+                            className="btn-close small"
+                            style={{ fontSize: '0.6rem' }}
+                            onClick={() => setUploadError(null)}
+                        ></button>
+                    </div>
+                )}
                 <div className="row g-4 align-items-stretch">
                     <div className="col-md-7">
                         <div
@@ -326,7 +357,7 @@ export default function Bilderkennung() {
                                         type="file"
                                         id="fileInput"
                                         className="d-none"
-                                        accept="image/*"
+                                        accept=".jpg,.jpeg,.png,.webp"
                                         onChange={(e) => handleImageUpload(e.target.files)}
                                     />
                                 </div>

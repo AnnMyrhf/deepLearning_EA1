@@ -254,6 +254,32 @@ footer {
     fill: var(--toggle-icon-hover) !important;
 }
 
+/* "Alle Ergebnisse löschen" Button-Stil */
+.btn-clear-results {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.875rem; /* Etwas kleiner (btn-sm Äquivalent) */
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    text-decoration: none; /* Entfernt Unterstreichung */
+    display: flex;
+    align-items: center;
+}
+
+.btn-clear-results:hover {
+    color: var(--link-color); /* Nutzt dein Theme-Blau */
+    text-decoration: none;    /* Stellt sicher, dass auch beim Hover nichts unterstrichen wird */
+}
+
+/* Optional: Das X etwas dünner oder dezenter machen */
+.btn-clear-results span {
+    font-size: 1rem;
+    line-height: 1;
+}
+
 /* =========================================
    5. CARDS
    ========================================= */
