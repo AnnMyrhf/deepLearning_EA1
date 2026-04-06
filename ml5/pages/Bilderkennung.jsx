@@ -121,7 +121,7 @@ export default function Bilderkennung() {
                             className="btn btn-reset-small rounded-pill d-flex align-items-center gap-2"
                             onClick={() => setResultsMap({})}
                         >
-                            <span>Alle Ergebenisse zurücksetzen</span>
+                            <span>Alles zurücksetzen</span>
                             <span className="fw-bold">✕</span>
                         </button>
                     )}
