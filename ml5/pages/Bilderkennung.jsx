@@ -116,22 +116,25 @@ export default function Bilderkennung() {
         const file = files[0]
         if (!file) return
 
-        // Fehler bei neuem Versuch zurücksetzen
+        // WICHTIG: Zuerst alten Fehler löschen, damit die UI frisch ist
         setUploadError(null)
 
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
         const maxSize = 5 * 1024 * 1024 // 5 MB
 
+        // 1. Prüfung: Format
         if (!allowedTypes.includes(file.type)) {
             setUploadError("Ungültiges Format! Bitte lade nur JPG, PNG oder WebP Dateien hoch.")
-            return
+            return // Stoppt hier
         }
 
+        // 2. Prüfung: Größe (Hier lag der Fehler, wahrscheinlich stand hier noch alert)
         if (file.size > maxSize) {
             setUploadError("Datei zu groß! Das Bild darf maximal 5 MB groß sein.")
-            return
+            return // Stoppt hier
         }
 
+        // Wenn beide Prüfungen bestanden sind, geht es hier weiter
         const reader = new FileReader()
         reader.onload = (e) => {
             setSelectedImage(e.target.result)
