@@ -31,9 +31,9 @@ export default function Bilderkennung() {
     }, [])
 
     const examples = [
-        { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Kinderdreirad auf einem hellen Kiesweg', status: 'KORREKT' },
-        { id: 2, title: 'Königspinguin', img: '/images/correct/pinguins.jpg', alt: 'Drei erwachsene Königspinguine nebeneinander auf einem dunklen Strand', status: 'KORREKT' },
-        { id: 3, title: 'Mountainbike', img: '/images/correct/bike.jpg', alt: 'Ein bepacktes Mountainbike bei Sonnenuntergang in einer Hügellandschaft', status: 'KORREKT' },
+        { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Kinderdreirad auf einem hellen Kiesweg', status: 'RICHTIG' },
+        { id: 2, title: 'Königspinguin', img: '/images/correct/pinguins.jpg', alt: 'Drei erwachsene Königspinguine nebeneinander auf einem dunklen Strand', status: 'RICHTIG' },
+        { id: 3, title: 'Mountainbike', img: '/images/correct/bike.jpg', alt: 'Ein bepacktes Mountainbike bei Sonnenuntergang in einer Hügellandschaft', status: 'RICHTIG' },
         { id: 4, title: 'Kaffeebohnen', img: '/images/incorrect/kaffee.jpg', alt: 'Dichte Ansicht einer großen Menge gerösteter Kaffeebohnen', status: 'FALSCH' },
         { id: 5, title: 'Muffin', img: '/images/incorrect/muffin.jpg', alt: 'Ein einzelner Blaubeermuffin auf einer dunklen Fläche', status: 'FALSCH' },
         { id: 6, title: 'Wald', img: '/images/incorrect/wald.jpg', alt: 'Sonnenlicht in einem Wald mit Moosboden', status: 'FALSCH' }
@@ -164,10 +164,11 @@ export default function Bilderkennung() {
         <div className="container py-5 mb-5">
             <header className="mb-5">
                 <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
-                <p className="lead text-secondary mb-3">Beispielbilder oder eigene Bilder analysieren.</p>
+                <p className="lead text-secondary mb-3">
+                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze die sechs Beispielbilder oder lade eigene Fotos hoch, um die Analyse zu starten und sofort Ergebnisse zu erhalte                </p>
                 <nav>
                     <ul className="list-unstyled d-flex flex-column gap-2">
-                        <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→ Beispielbilder analysieren</a></li>
+                        <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→ Beispielbilder klassifizieren</a></li>
                         <li><a href="#upload-sektion" className="text-primary text-decoration-none hover-link">→ Eigenes Bild hochladen</a></li>
                     </ul>
                 </nav>
@@ -198,7 +199,7 @@ export default function Bilderkennung() {
                                         <div className="col-5">
                                             <div className="position-relative">
                                                 <img src={ex.img} className="img-fluid rounded-3" alt={ex.alt} ref={el => imageRefs.current[ex.id] = el} />
-                                                {hasResult && <span className={`badge position-absolute top-0 start-0 m-2 ${ex.status === 'KORREKT' ? 'bg-success' : 'bg-danger'}`}>{ex.status}</span>}
+                                                {hasResult && <span className={`badge position-absolute top-0 start-0 m-2 ${ex.status === 'RICHTIG' ? 'bg-success' : 'bg-danger'}`}>{ex.status}</span>}
                                             </div>
                                         </div>
                                         <div className="col-7">
