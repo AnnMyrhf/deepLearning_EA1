@@ -176,9 +176,9 @@ export default function Bilderkennung() {
 
             <section id="beispiel-sektion" className="mb-5 pb-5 border-bottom border-secondary border-opacity-25">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h2 className="h4 text-light m-0">Beispielbilder klassifizieren</h2>
+                    {/* Nutze text-body oder text-emphasis für automatische Farbanpassung */}
+                    <h2 className="h4 text-emphasis m-0">Beispielbilder klassifizieren</h2>
 
-                    {/* Der "Alle zurücksetzen" Button */}
                     {Object.keys(resultsMap).length > 0 && (
                         <button
                             className="btn btn-sm btn-outline-secondary rounded-pill px-3"
@@ -188,22 +188,48 @@ export default function Bilderkennung() {
                         </button>
                     )}
                 </div>
+
                 {examples.map((ex) => {
                     const isCurrentlyAnalyzing = analyzingId === ex.id
                     const hasResult = !!resultsMap[ex.id]
+
+                    // DYNAMISCHE FARB-LOGIK
+                    let statusClass = 'border-secondary bg-body-tertiary'; // Neutraler Startwert
+
+                    if (hasResult) {
+                        statusClass = ex.status === 'RICHTIG'
+                            ? 'border-success bg-success bg-opacity-10'
+                            : 'border-danger bg-danger bg-opacity-10';
+                    }
+
                     return (
                         <div key={ex.id} className="row g-4 mb-4 align-items-stretch">
                             <div className="col-md-7">
-                                <div className={`p-3 rounded-4 border h-100 d-flex flex-column justify-content-center ${hasResult ? 'border-primary bg-primary bg-opacity-10' : 'border-secondary bg-dark'}`}>
+                                <div
+                                    className={`p-3 rounded-4 border h-100 d-flex flex-column justify-content-center ${statusClass}`}
+                                    style={{
+                                        borderWidth: hasResult ? '3px' : '1px',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
                                     <div className="row align-items-center">
                                         <div className="col-5">
                                             <div className="position-relative">
-                                                <img src={ex.img} className="img-fluid rounded-3" alt={ex.alt} ref={el => imageRefs.current[ex.id] = el} />
-                                                {hasResult && <span className={`badge position-absolute top-0 start-0 m-2 ${ex.status === 'RICHTIG' ? 'bg-success' : 'bg-danger'}`}>{ex.status}</span>}
+                                                <img
+                                                    src={ex.img}
+                                                    className="img-fluid rounded-3 shadow-sm"
+                                                    alt={ex.alt}
+                                                    ref={el => imageRefs.current[ex.id] = el}
+                                                />
+                                                {hasResult && (
+                                                    <span className={`badge position-absolute top-0 start-0 m-2 shadow-sm ${ex.status === 'RICHTIG' ? 'bg-success' : 'bg-danger'}`}>
+                                            {ex.status}
+                                        </span>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="col-7">
-                                            <h3 className="h5 text-light mb-3">{ex.title}</h3>
+                                            <h3 className="h5 text-emphasis mb-3">{ex.title}</h3>
                                             <button
                                                 className={`btn rounded-pill w-100 btn-theme-ai ${hasResult ? 'active' : ''}`}
                                                 onClick={() => {
@@ -230,7 +256,7 @@ export default function Bilderkennung() {
                                     isAnalyzing={isCurrentlyAnalyzing}
                                     predictions={resultsMap[ex.id]}
                                     onClose={() => {
-                                        const n={...resultsMap};
+                                        const n = { ...resultsMap };
                                         delete n[ex.id];
                                         setResultsMap(n);
                                         if (analyzingId === ex.id) setAnalyzingId(null);

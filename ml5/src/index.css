@@ -119,6 +119,19 @@ h1, h2, h3, .fw-bold {
     color: var(--text-main) !important;
 }
 
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.border-secondary {
+    border-color: var(--border-color) !important;
+}
+
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text) !important;
+}
+
 /* =========================================
    3. NAVIGATION & NAVBAR
    ========================================= */
@@ -242,7 +255,7 @@ h1, h2, h3, .fw-bold {
 }
 
 /* =========================================
-   5. KARTEN & BOOTSTRAP FIXES
+   5. CARDS
    ========================================= */
 
 .bg-dark {
@@ -264,18 +277,23 @@ h1, h2, h3, .fw-bold {
     background-color: var(--text-main) !important;
 }
 
-.text-secondary {
-    color: var(--text-secondary) !important;
+/* Basis-Stil für die Card, wenn sie analysiert ist */
+.AnalysisCard.analysed {
+    transition: border-color 0.3s ease; /* Weicher Übergang */
+    border-width: 3px !important; /* Etwas dickerer Rand */
 }
 
-.border-secondary {
-    border-color: var(--border-color) !important;
+/* Zustand: Richtig klassifiziert */
+.AnalysisCard.status-right {
+    border-color: #198754 !important; /* Bootstrap success-green */
 }
 
-footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text) !important;
+/* Zustand: Falsch klassifiziert */
+.AnalysisCard.status-wrong {
+    border-color: #dc3545 !important; /* Bootstrap danger-red */
 }
+
+
 
 /* =========================================
    6. UTILITIES
