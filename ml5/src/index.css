@@ -60,13 +60,56 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Schriftart lokal einbinden */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/ml5/public/fonts/Inter_18pt-Bold.ttf') format('truetype');
+}
+
+/* Kursiver Text (Italic) */
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/ml5/public/fonts/Inter_18pt-Italic.ttf') format('truetype');
+}
+
+/* Fetter Text & Überschriften (Bold) */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/ml5/public/fonts/Inter_24pt-Bold.ttf') format('truetype');
+}
+
 body {
+    /* Hintergrund & Farben */
     background-color: var(--bg-main);
     color: var(--text-main);
+
+    /* Schriftart */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400; /* Standardmäßig Regular (18pt) */
+
+    /* Rendering-Optimierung (macht die Schrift sauberer) */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Layout-Resets */
     margin: 0;
     padding: 0;
+
+    /* Sanfter Theme-Wechsel */
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, .fw-bold {
+    font-weight: 700; /* Greift automatisch auf die 24pt-Bold Datei zu */
 }
 
 /* Fix für H1, H2 und text-light Klassen im Light Mode */
@@ -146,7 +189,26 @@ body {
 .btn-theme-ai:hover,
 .btn-theme-ai.active {
     background-color: var(--link-color) !important;
-    color: var(--bg-main) !important; /* Textfarbe wird Hintergrundfarbe */
+    color: #ffffff !important;
+}
+
+[data-bs-theme="light"] .btn-theme-ai:hover,
+[data-bs-theme="light"] .btn-theme-ai.active {
+    color: #ffffff !important;
+}
+
+/* "Alle Ergebnisse löschen" (Ohne Rahmen) */
+.btn-outline-secondary.rounded-pill {
+    border: none !important;
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.btn-outline-secondary.rounded-pill:hover {
+    color: var(--link-color) !important;
+    text-decoration: underline;
 }
 
 /* Theme-Toggle Logik */
@@ -185,6 +247,11 @@ body {
 
 .bg-dark {
     background-color: var(--card-bg) !important;
+}
+
+[data-bs-theme="light"] .btn-close {
+    filter: invert(0) grayscale(100%) brightness(0);
+    opacity: 0.7;
 }
 
 [data-bs-theme="light"] .btn-outline-light {
