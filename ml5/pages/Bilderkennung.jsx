@@ -31,12 +31,12 @@ export default function Bilderkennung() {
     }, [])
 
     const examples = [
-        { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Dreirad auf einem Kiesweg', status: 'KORREKT' },
-        { id: 2, title: 'Königspinguin', img: '/images/correct/pinguins.jpg', alt: 'Mehrere Königspinguine in der Arktis mit Berglandschaft im Hintergrund', status: 'KORREKT' },
-        { id: 3, title: 'Taxi', img: '/images/correct/taxi.jpg', alt: 'Ein fahrendes Taxi in einer Großstadt', status: 'KORREKT' },
-        { id: 4, title: 'Kaffeebohnen', img: '/images/incorrect/kaffee.jpg', alt: 'Kaffebohnen', status: 'FALSCH' },
-        { id: 5, title: 'Muffin', img: '/images/incorrect/muffin.jpg', alt: 'Blauberrmuffin auf einer grauen Fläche', status: 'FALSCH' },
-        { id: 6, title: 'Wald', img: '/images/incorrect/wald.jpg', alt: 'Wallichtung mit Sonnenstrahlen', status: 'FALSCH' }
+        { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Kinderdreirad auf einem hellen Kiesweg', status: 'KORREKT' },
+        { id: 2, title: 'Königspinguin', img: '/images/correct/pinguins.jpg', alt: 'Drei erwachsene Königspinguine nebeneinander auf einem dunklen Strand', status: 'KORREKT' },
+        { id: 3, title: 'Mountainbike', img: '/images/correct/bike.jpg', alt: 'Ein bepacktes Mountainbike bei Sonnenuntergang in einer Hügellandschaft', status: 'KORREKT' },
+        { id: 4, title: 'Kaffeebohnen', img: '/images/incorrect/kaffee.jpg', alt: 'Dichte Ansicht einer großen Menge gerösteter Kaffeebohnen', status: 'FALSCH' },
+        { id: 5, title: 'Muffin', img: '/images/incorrect/muffin.jpg', alt: 'Ein einzelner Blaubeermuffin auf einer dunklen Fläche', status: 'FALSCH' },
+        { id: 6, title: 'Wald', img: '/images/incorrect/wald.jpg', alt: 'Sonnenlicht in einem Wald mit Moosboden', status: 'FALSCH' }
     ]
 
     const translateText = async (labelsArray) => {
