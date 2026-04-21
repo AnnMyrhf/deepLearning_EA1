@@ -9,7 +9,7 @@ export default function Dokumentation() {
             <nav className="mb-4">
                 <ul className="list-unstyled d-flex flex-column gap-2">
                     <li><a href="#frameworks" className="text-primary text-decoration-none hover-link">→ Frameworks
-                        & Tools</a></li>
+                        & Infrastruktur</a></li>
                     <li><a href="#techBesonderheiten" className="text-primary text-decoration-none hover-link">→
                         Technische Besonderheiten</a></li>
                     <li><a href="#implementierung" className="text-primary text-decoration-none hover-link">→
