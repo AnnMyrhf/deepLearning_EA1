@@ -42,11 +42,6 @@ export default function Dokumentation() {
                         </a>).
                     </p></li>
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
-                        <strong className="text-light">Vite</strong> <p>Modernes Build-Tool, das eine performante
-                        Entwicklungsumgebung sowie ein hochgradig optimiertes Deployment der React-Anwendung
-                        sicherstellt</p>
-                    </li>
-                    <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
                         <strong className="text-light">Render</strong> <p>Hosting und Webserver mit Continuous
                         Deployment (CD) zur automatisierten Bereitstellung von Aktualisierungen</p></li>
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">

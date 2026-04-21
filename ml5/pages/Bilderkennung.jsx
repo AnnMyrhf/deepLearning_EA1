@@ -128,13 +128,13 @@ export default function Bilderkennung() {
             return // Stoppt hier
         }
 
-        // 2. Prüfung: Größe (Hier lag der Fehler, wahrscheinlich stand hier noch alert)
+        // 2. Prüfung: Größe
         if (file.size > maxSize) {
             setUploadError("Datei zu groß! Das Bild darf maximal 5 MB groß sein.")
-            return // Stoppt hier
+            return
         }
 
-        // Wenn beide Prüfungen bestanden sind, geht es hier weiter
+        // Wenn Groesse und Format ok, geht es hier weiter
         const reader = new FileReader()
         reader.onload = (e) => {
             setSelectedImage(e.target.result)
@@ -196,12 +196,11 @@ export default function Bilderkennung() {
 
             <section id="beispiel-sektion" className="mb-5 pb-5 border-bottom border-secondary border-opacity-25">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                    {/* Nutze text-body oder text-emphasis für automatische Farbanpassung */}
                     <h2 className="h4 text-emphasis m-0">Beispielbilder klassifizieren</h2>
 
                     {Object.keys(resultsMap).length > 0 && (
                         <button
-                            className="btn-clear-results" // Neue, spezifische Klasse
+                            className="btn-clear-results"
                             onClick={resetAllResults}
                         >
                             <span className="me-2">✕</span> Alle Ergebnisse löschen
