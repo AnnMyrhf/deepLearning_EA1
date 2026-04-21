@@ -61,30 +61,31 @@ html {
 }
 
 /* Schriftart lokal einbinden */
+/* Regular */
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url('/ml5/public/fonts/Inter_18pt-Bold.ttf') format('truetype');
+    src: url('/fonts/Inter_18pt-Regular.ttf') format('truetype');
 }
 
-/* Kursiver Text (Italic) */
+/* Italic */
 @font-face {
     font-family: 'Inter';
     font-style: italic;
     font-weight: 400;
     font-display: swap;
-    src: url('/ml5/public/fonts/Inter_18pt-Italic.ttf') format('truetype');
+    src: url('/fonts/Inter_18pt-Italic.ttf') format('truetype');
 }
 
-/* Fetter Text & Überschriften (Bold) */
+/* Bold */
 @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url('/ml5/public/fonts/Inter_24pt-Bold.ttf') format('truetype');
+    src: url('/fonts/Inter_24pt-Bold.ttf') format('truetype');
 }
 
 body {

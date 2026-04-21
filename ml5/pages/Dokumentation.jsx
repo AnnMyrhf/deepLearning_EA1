@@ -51,7 +51,7 @@ export default function Dokumentation() {
                         Deployment (CD) zur automatisierten Bereitstellung von Aktualisierungen</p></li>
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
                         <strong className="text-light">Beispielbilder</strong> <p>Die sechs verwendeten
-                        Beispielbilder stammen aus den lizenzfreien Bilddatenbanken Unsplash und Pixabay.</p></li>
+                        Beispielbilder stammen aus den lizenzfreien Bilddatenbanken <a href="https://https://unsplash.com" target="_blank">Unsplash</a> und <a href="https://pixabay.com" target="_blank">Pixabay</a> .</p></li>
                 </ul>
             </div>
             {/* Technische Besonderheiten */}
