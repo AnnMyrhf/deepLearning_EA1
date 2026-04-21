@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import ml5 from 'ml5'
+//import ml5 from 'ml5'
 
 export default function Bilderkennung() {
     const [selectedImage, setSelectedImage] = useState(null)
@@ -13,7 +13,7 @@ export default function Bilderkennung() {
     const uploadImageRef = useRef(null)
     const [uploadError, setUploadError] = useState(null)
 
-    useEffect(() => {
+   /* useEffect(() => {
         const loadModel = async () => {
             try {
                 // Erzwinge WebGL, um den WebGPU-Fehler (t.requestAdapterMix) zu umgehen
@@ -29,7 +29,25 @@ export default function Bilderkennung() {
             }
         }
         loadModel()
-    }, [])
+    }, [])*/
+
+    useEffect(() => {
+        const loadModel = async () => {
+            try {
+                const ml5 = (await import('ml5')).default; // Lädt ml5 asynchron im Hintergrund
+
+                if (ml5.tf) {
+                    await ml5.tf.setBackend('webgl');
+                    await ml5.tf.ready();
+                }
+                const model = await ml5.imageClassifier('MobileNet');
+                setClassifier(model);
+            } catch (err) {
+                console.error("Fehler:", err);
+            }
+        }
+        loadModel();
+    }, []);
 
     const examples = [
         { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Kinderdreirad auf einem hellen Kiesweg', status: 'RICHTIG' },
