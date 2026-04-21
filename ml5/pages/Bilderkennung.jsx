@@ -34,7 +34,7 @@ export default function Bilderkennung() {
     useEffect(() => {
         const loadModel = async () => {
             try {
-                const ml5 = (await import('ml5')).default; // Lädt ml5 asynchron im Hintergrund
+                const ml5 = (await import('ml5')).default; // Lädt ml5 asynchron im Hintergrund für schnelleren Initial Load
 
                 if (ml5.tf) {
                     await ml5.tf.setBackend('webgl');
@@ -254,6 +254,7 @@ export default function Bilderkennung() {
                                             <div className="position-relative">
                                                 <img
                                                     src={ex.img}
+                                                    loading="lazy"
                                                     className="img-fluid rounded-3 shadow-sm"
                                                     alt={ex.alt}
                                                     ref={el => imageRefs.current[ex.id] = el}
