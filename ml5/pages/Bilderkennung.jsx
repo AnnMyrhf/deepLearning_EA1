@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import {useState, useEffect, useRef} from 'react'
 //import ml5 from 'ml5'
 
 export default function Bilderkennung() {
@@ -13,23 +13,23 @@ export default function Bilderkennung() {
     const uploadImageRef = useRef(null)
     const [uploadError, setUploadError] = useState(null)
 
-   /* useEffect(() => {
-        const loadModel = async () => {
-            try {
-                // Erzwinge WebGL, um den WebGPU-Fehler (t.requestAdapterMix) zu umgehen
-                if (ml5.tf) {
-                    await ml5.tf.setBackend('webgl')
-                    await ml5.tf.ready()
-                }
-                const model = await ml5.imageClassifier('MobileNet')
-                setClassifier(model)
-                console.log("MobileNet v1.3.1 (WebGL) geladen")
-            } catch (err) {
-                console.error("Fehler beim Modell-Setup:", err)
-            }
-        }
-        loadModel()
-    }, [])*/
+    /* useEffect(() => {
+         const loadModel = async () => {
+             try {
+                 // Erzwinge WebGL, um den WebGPU-Fehler (t.requestAdapterMix) zu umgehen
+                 if (ml5.tf) {
+                     await ml5.tf.setBackend('webgl')
+                     await ml5.tf.ready()
+                 }
+                 const model = await ml5.imageClassifier('MobileNet')
+                 setClassifier(model)
+                 console.log("MobileNet v1.3.1 (WebGL) geladen")
+             } catch (err) {
+                 console.error("Fehler beim Modell-Setup:", err)
+             }
+         }
+         loadModel()
+     }, [])*/
 
     useEffect(() => {
         const loadModel = async () => {
@@ -50,12 +50,48 @@ export default function Bilderkennung() {
     }, []);
 
     const examples = [
-        { id: 1, title: 'Dreirad', img: '/images/correct/dreirad.jpg', alt: 'Ein Kinderdreirad auf einem hellen Kiesweg', status: 'RICHTIG' },
-        { id: 2, title: 'Königspinguin', img: '/images/correct/pinguins.jpg', alt: 'Drei erwachsene Königspinguine nebeneinander auf einem dunklen Strand', status: 'RICHTIG' },
-        { id: 3, title: 'Mountainbike', img: '/images/correct/bike.jpg', alt: 'Ein bepacktes Mountainbike bei Sonnenuntergang in einer Hügellandschaft', status: 'RICHTIG' },
-        { id: 4, title: 'Kaffeebohnen', img: '/images/incorrect/kaffee.jpg', alt: 'Dichte Ansicht einer großen Menge gerösteter Kaffeebohnen', status: 'FALSCH' },
-        { id: 5, title: 'Muffin', img: '/images/incorrect/muffin.jpg', alt: 'Ein einzelner Blaubeermuffin auf einer dunklen Fläche', status: 'FALSCH' },
-        { id: 6, title: 'Wald', img: '/images/incorrect/wald.jpg', alt: 'Sonnenlicht in einem Wald mit Moosboden', status: 'FALSCH' }
+        {
+            id: 1,
+            title: 'Dreirad',
+            img: '/images/correct/dreirad.jpg',
+            alt: 'Ein Kinderdreirad auf einem hellen Kiesweg',
+            status: 'RICHTIG'
+        },
+        {
+            id: 2,
+            title: 'Königspinguin',
+            img: '/images/correct/pinguins.jpg',
+            alt: 'Drei erwachsene Königspinguine nebeneinander auf einem dunklen Strand',
+            status: 'RICHTIG'
+        },
+        {
+            id: 3,
+            title: 'Mountainbike',
+            img: '/images/correct/bike.jpg',
+            alt: 'Ein bepacktes Mountainbike bei Sonnenuntergang in einer Hügellandschaft',
+            status: 'RICHTIG'
+        },
+        {
+            id: 4,
+            title: 'Kaffeebohnen',
+            img: '/images/incorrect/kaffee.jpg',
+            alt: 'Dichte Ansicht einer großen Menge gerösteter Kaffeebohnen',
+            status: 'FALSCH'
+        },
+        {
+            id: 5,
+            title: 'Muffin',
+            img: '/images/incorrect/muffin.jpg',
+            alt: 'Ein einzelner Blaubeermuffin auf einer dunklen Fläche',
+            status: 'FALSCH'
+        },
+        {
+            id: 6,
+            title: 'Wald',
+            img: '/images/incorrect/wald.jpg',
+            alt: 'Sonnenlicht in einem Wald mit Moosboden',
+            status: 'FALSCH'
+        }
     ]
 
     const translateText = async (labelsArray) => {
@@ -93,7 +129,7 @@ export default function Bilderkennung() {
 
         if (id) {
             setAnalyzingId(id)
-            setResultsMap(prev => ({ ...prev, [id]: null }))
+            setResultsMap(prev => ({...prev, [id]: null}))
         } else {
             setIsAnalyzing(true)
             setUploadResults([])
@@ -112,7 +148,7 @@ export default function Bilderkennung() {
                 }))
 
                 if (id) {
-                    setResultsMap(prev => ({ ...prev, [id]: finalResults }))
+                    setResultsMap(prev => ({...prev, [id]: finalResults}))
                 } else {
                     setUploadResults(finalResults)
                 }
@@ -169,12 +205,14 @@ export default function Bilderkennung() {
         }
     }, [selectedImage, isAnalyzing])
 
-    const AnalysisBox = ({ show, onClose, isAnalyzing, predictions }) => {
+    const AnalysisBox = ({show, onClose, isAnalyzing, predictions}) => {
         if (!show) return null
         const isLoading = isAnalyzing || !predictions || predictions.length === 0
         return (
-            <div className="p-4 bg-dark border border-secondary rounded-4 shadow h-100 position-relative d-flex flex-column justify-content-center">
-                <button type="button" className="btn-close btn-close-white position-absolute top-0 end-0 m-3" onClick={onClose}></button>
+            <div
+                className="p-4 bg-dark border border-secondary rounded-4 shadow h-100 position-relative d-flex flex-column justify-content-center">
+                <button type="button" className="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                        onClick={onClose}></button>
                 <h3 className="h6 fw-bold text-light mb-3 text-uppercase">Ergebnis</h3>
                 {isLoading ? (
                     <div className="text-center py-3">
@@ -188,8 +226,9 @@ export default function Bilderkennung() {
                                 <span className="text-light">{p.label}</span>
                                 <span className="text-primary">{(p.confidence * 100).toFixed(1)}%</span>
                             </div>
-                            <div className="progress" style={{ height: '4px' }}>
-                                <div className="progress-bar bg-primary" style={{ width: `${p.confidence * 100}%` }}></div>
+                            <div className="progress" style={{height: '4px'}}>
+                                <div className="progress-bar bg-primary"
+                                     style={{width: `${p.confidence * 100}%`}}></div>
                             </div>
                         </div>
                     ))
@@ -203,11 +242,15 @@ export default function Bilderkennung() {
             <header className="mb-5">
                 <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
                 <p className="lead text-secondary mb-3">
-                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze dafür entweder die sechs Beispielbilder oder lade eigene Bilder hoch, um automatisch die Analyse zu starten und sofort die Ergebnisse zu sehen.</p>
+                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze dafür entweder die sechs
+                    Beispielbilder oder lade eigene Bilder hoch, um automatisch die Analyse zu starten und sofort die
+                    Ergebnisse zu sehen.</p>
                 <nav>
                     <ul className="list-unstyled d-flex flex-column gap-2">
-                        <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→ Beispielbilder klassifizieren</a></li>
-                        <li><a href="#upload-sektion" className="text-primary text-decoration-none hover-link">→ Eigenes Bild hochladen</a></li>
+                        <li><a href="#beispiel-sektion" className="text-primary text-decoration-none hover-link">→
+                            Beispielbilder klassifizieren</a></li>
+                        <li><a href="#upload-sektion" className="text-primary text-decoration-none hover-link">→ Eigenes
+                            Bild hochladen</a></li>
                     </ul>
                 </nav>
             </header>
@@ -260,7 +303,8 @@ export default function Bilderkennung() {
                                                     ref={el => imageRefs.current[ex.id] = el}
                                                 />
                                                 {hasResult && (
-                                                    <span className={`badge position-absolute top-0 start-0 m-2 shadow-sm ${ex.status === 'RICHTIG' ? 'bg-success' : 'bg-danger'}`}>
+                                                    <span
+                                                        className={`badge position-absolute top-0 start-0 m-2 shadow-sm ${ex.status === 'RICHTIG' ? 'bg-success' : 'bg-danger'}`}>
                                             {ex.status}
                                         </span>
                                                 )}
@@ -273,7 +317,7 @@ export default function Bilderkennung() {
                                                 onClick={() => {
                                                     if (hasResult) {
                                                         setResultsMap(prev => {
-                                                            const n = { ...prev }
+                                                            const n = {...prev}
                                                             delete n[ex.id]
                                                             return n
                                                         })
@@ -294,7 +338,7 @@ export default function Bilderkennung() {
                                     isAnalyzing={isCurrentlyAnalyzing}
                                     predictions={resultsMap[ex.id]}
                                     onClose={() => {
-                                        const n = { ...resultsMap };
+                                        const n = {...resultsMap};
                                         delete n[ex.id];
                                         setResultsMap(n);
                                         if (analyzingId === ex.id) setAnalyzingId(null);
@@ -310,14 +354,16 @@ export default function Bilderkennung() {
                 <h2 className="h4 text-emphasis mb-4">Eigenes Bild hochladen</h2>
                 {/* Fehlermeldung-Container */}
                 {uploadError && (
-                    <div className="alert alert-danger d-flex align-items-center justify-content-between rounded-4 mb-3 border-0 shadow-sm py-2 px-3" role="alert">
+                    <div
+                        className="alert alert-danger d-flex align-items-center justify-content-between rounded-4 mb-3 border-0 shadow-sm py-2 px-3"
+                        role="alert">
                         <div className="d-flex align-items-center">
                             <span className="small fw-medium">{uploadError}</span>
                         </div>
                         <button
                             type="button"
                             className="btn-close small"
-                            style={{ fontSize: '0.6rem' }}
+                            style={{fontSize: '0.6rem'}}
                             onClick={() => setUploadError(null)}
                         ></button>
                     </div>
@@ -327,7 +373,10 @@ export default function Bilderkennung() {
                         <div
                             className={`drop-zone p-5 rounded-4 text-center h-100 d-flex flex-column align-items-center justify-content-center 
                     ${isDragging ? 'dragging' : ''} ${selectedImage ? 'has-image' : ''}`}
-                            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                            onDragOver={(e) => {
+                                e.preventDefault();
+                                setIsDragging(true);
+                            }}
                             onDragLeave={() => setIsDragging(false)}
                             onDrop={(e) => {
                                 e.preventDefault();
@@ -343,7 +392,7 @@ export default function Bilderkennung() {
                                         ref={uploadImageRef}
                                         className="img-fluid rounded-3 shadow-lg mb-3"
                                         alt="Vorschau"
-                                        style={{ maxHeight: '300px', objectFit: 'contain' }}
+                                        style={{maxHeight: '300px', objectFit: 'contain'}}
                                     />
                                     <button
                                         className="btn rounded-pill btn-theme-ai px-4 shadow-sm" // Nutzt deine btn-theme-ai Klasse
@@ -361,9 +410,12 @@ export default function Bilderkennung() {
                                 <div className="upload-content py-2">
                                     {/* Upload Icon */}
                                     <div className="upload-icon mb-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                                            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                                             fill="currentColor" viewBox="0 0 16 16">
+                                            <path
+                                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                            <path
+                                                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
                                         </svg>
                                     </div>
 

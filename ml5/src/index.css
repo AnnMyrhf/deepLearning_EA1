@@ -1,5 +1,5 @@
 /* =========================================
-   1. THEME-VARIABLEN (Zentrale Steuerung)
+   1. THEME-VARIABLEN
    ========================================= */
 
 /* Dark Mode (Standard) */
@@ -30,7 +30,7 @@
 /* Light Mode */
 [data-bs-theme="light"] {
     --bg-main: #ffffff;
-    --text-main: #212529; /* Dunkel für H1, H2 und Text */
+    --text-main: #212529;
     --text-secondary: #495057;
 
     --link-color: #1864ab;
@@ -60,7 +60,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Schriftart lokal einbinden */
+/* Schriftart lokal eingebunden */
 /* Regular */
 @font-face {
     font-family: 'Inter';
@@ -113,7 +113,6 @@ h1, h2, h3, .fw-bold {
     font-weight: 700; /* Greift automatisch auf die 24pt-Bold Datei zu */
 }
 
-/* Fix für H1, H2 und text-light Klassen im Light Mode */
 [data-bs-theme="light"] .text-light,
 [data-bs-theme="light"] h1,
 [data-bs-theme="light"] h2 {
@@ -167,6 +166,18 @@ footer {
     transform: translateX(5px);
 }
 
+a {
+    color: var(--link-color);
+
+    transition: color 0.2s ease;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: var(--link-hover);
+    text-decoration: none;
+}
+
 .back-to-top {
     position: fixed;
     bottom: 30px;
@@ -211,7 +222,6 @@ footer {
     color: #ffffff !important;
 }
 
-/* "Alle Ergebnisse löschen" (Ohne Rahmen) */
 .btn-outline-secondary.rounded-pill {
     border: none !important;
     background: transparent !important;
@@ -246,7 +256,6 @@ footer {
     fill: var(--toggle-color) !important;
 }
 
-/* Hover-Effekte */
 #theme-toggle:hover {
     background-color: var(--toggle-hover-bg) !important;
 }
@@ -255,27 +264,25 @@ footer {
     fill: var(--toggle-icon-hover) !important;
 }
 
-/* "Alle Ergebnisse löschen" Button-Stil */
 .btn-clear-results {
     background: transparent;
     border: none;
     color: var(--text-secondary);
-    font-size: 0.875rem; /* Etwas kleiner (btn-sm Äquivalent) */
+    font-size: 0.875rem;
     font-weight: 500;
     padding: 0.25rem 0.75rem;
     transition: color 0.2s ease;
     cursor: pointer;
-    text-decoration: none; /* Entfernt Unterstreichung */
+    text-decoration: none;
     display: flex;
     align-items: center;
 }
 
 .btn-clear-results:hover {
-    color: var(--link-color); /* Nutzt dein Theme-Blau */
-    text-decoration: none;    /* Stellt sicher, dass auch beim Hover nichts unterstrichen wird */
+    color: var(--link-color);
+    text-decoration: none;
 }
 
-/* Optional: Das X etwas dünner oder dezenter machen */
 .btn-clear-results span {
     font-size: 1rem;
     line-height: 1;
@@ -306,18 +313,18 @@ footer {
 
 /* Basis-Stil für die Card, wenn sie analysiert ist */
 .AnalysisCard.analysed {
-    transition: border-color 0.3s ease; /* Weicher Übergang */
-    border-width: 3px !important; /* Etwas dickerer Rand */
+    transition: border-color 0.3s ease;
+    border-width: 3px !important;
 }
 
 /* Zustand: Richtig klassifiziert */
 .AnalysisCard.status-right {
-    border-color: #198754 !important; /* Bootstrap success-green */
+    border-color: #198754 !important;
 }
 
 /* Zustand: Falsch klassifiziert */
 .AnalysisCard.status-wrong {
-    border-color: #dc3545 !important; /* Bootstrap danger-red */
+    border-color: #dc3545 !important;
 }
 
 /* =========================================
@@ -325,8 +332,8 @@ footer {
    ========================================= */
 /* Grundzustand der Drop-Zone */
 .drop-zone {
-    border: 2px dashed var(--border-color); /* Nutzt deine Variable */
-    background-color: var(--card-bg);        /* Nutzt deine Variable */
+    border: 2px dashed var(--border-color);
+    background-color: var(--card-bg);
     transition: all 0.3s ease-in-out;
     cursor: pointer;
     min-height: 350px;
@@ -339,8 +346,7 @@ footer {
 /* Hover-Effekt & Dragging-Zustand */
 .drop-zone:not(.has-image):hover,
 .drop-zone.dragging {
-    border-color: var(--link-color); /* Nutzt dein Theme-Blau */
-    /* Erzeugt einen subtilen Glow in der jeweiligen Link-Farbe */
+    border-color: var(--link-color);
     background-color: color-mix(in srgb, var(--link-color), transparent 92%);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
@@ -368,7 +374,7 @@ footer {
     cursor: default;
 }
 
-/* Button innerhalb der Dropzone (passt sich an Sektion 4 an) */
+/* Button innerhalb der Dropzone*/
 .drop-zone .btn-outline-primary {
     border-color: var(--link-color);
     color: var(--link-color);
