@@ -42,6 +42,7 @@ export default function Bilderkennung() {
                 }
                 const model = await ml5.imageClassifier('MobileNet');
                 setClassifier(model);
+                console.log("MobileNet v1.3.1 (WebGL) geladen")
             } catch (err) {
                 console.error("Fehler:", err);
             }
