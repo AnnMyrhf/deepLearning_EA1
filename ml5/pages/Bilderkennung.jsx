@@ -16,7 +16,7 @@ export default function Bilderkennung() {
     /* useEffect(() => {
          const loadModel = async () => {
              try {
-                 // Erzwinge WebGL, um den WebGPU-Fehler (t.requestAdapterMix) zu umgehen
+                 // Erzwingt WebGL, um den WebGPU-Fehler (t.requestAdapterMix) zu umgehen
                  if (ml5.tf) {
                      await ml5.tf.setBackend('webgl')
                      await ml5.tf.ready()
@@ -136,7 +136,6 @@ export default function Bilderkennung() {
         }
 
         try {
-            // In v1.3.1 nutzen wir await direkt am classifier
             const results = await classifier.classify(imgElement)
 
             if (results && results.length > 0) {
@@ -170,25 +169,22 @@ export default function Bilderkennung() {
         const file = files[0]
         if (!file) return
 
-        // WICHTIG: Zuerst alten Fehler löschen, damit die UI frisch ist
+        // Loescht alte Fehler
         setUploadError(null)
 
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
         const maxSize = 5 * 1024 * 1024 // 5 MB
 
-        // 1. Prüfung: Format
         if (!allowedTypes.includes(file.type)) {
             setUploadError("Ungültiges Format! Bitte lade nur JPG, PNG oder WebP Dateien hoch.")
             return // Stoppt hier
         }
 
-        // 2. Prüfung: Größe
         if (file.size > maxSize) {
             setUploadError("Datei zu groß! Das Bild darf maximal 5 MB groß sein.")
             return
         }
 
-        // Wenn Groesse und Format ok, geht es hier weiter
         const reader = new FileReader()
         reader.onload = (e) => {
             setSelectedImage(e.target.result)
@@ -198,7 +194,7 @@ export default function Bilderkennung() {
         reader.readAsDataURL(file)
     }
 
-    // Effekt, um die Analyse des hochgeladenen Bildes zu starten, sobald das Bild geladen ist
+    // Startet Analyse des hochgeladenen Bildes sobald Bild geladen ist
     useEffect(() => {
         if (selectedImage && uploadImageRef.current && isAnalyzing && uploadResults.length === 0) {
             classifyImage(uploadImageRef.current)
@@ -273,7 +269,7 @@ export default function Bilderkennung() {
                     const isCurrentlyAnalyzing = analyzingId === ex.id
                     const hasResult = !!resultsMap[ex.id]
 
-                    // DYNAMISCHE FARB-LOGIK
+                    // Dynamische Farb-Logik Beispielbilder
                     let statusClass = 'border-secondary bg-body-tertiary'; // Neutraler Startwert
 
                     if (hasResult) {
@@ -352,7 +348,7 @@ export default function Bilderkennung() {
 
             <section id="upload-sektion" className="mb-5 pb-5">
                 <h2 className="h4 text-emphasis mb-4">Eigenes Bild hochladen</h2>
-                {/* Fehlermeldung-Container */}
+                {/*Fehlermeldung*/}
                 {uploadError && (
                     <div
                         className="alert alert-danger d-flex align-items-center justify-content-between rounded-4 mb-3 border-0 shadow-sm py-2 px-3"
@@ -408,7 +404,7 @@ export default function Bilderkennung() {
                                 </div>
                             ) : (
                                 <div className="upload-content py-2">
-                                    {/* Upload Icon */}
+                                    {/* Upload-Icon */}
                                     <div className="upload-icon mb-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
                                              fill="currentColor" viewBox="0 0 16 16">
@@ -419,7 +415,7 @@ export default function Bilderkennung() {
                                         </svg>
                                     </div>
 
-                                    <p className="fw-bold text-emphasis mb-1">Bild auswählen oder ablegen</p>
+                                    <p className="fw-bold text-emphasis mb-1">Ziehe dein Bild hierher oder wähle eine Datei aus</p>
                                     <p className="text-secondary small mb-4">JPG, PNG oder WebP bis zu 5 MB</p>
 
                                     <button className="btn btn-outline-primary rounded-pill px-4 fw-medium shadow-sm">
