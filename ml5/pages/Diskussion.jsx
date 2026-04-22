@@ -37,7 +37,7 @@ export default function Diskussion() {
                         <div className="small lh-base text-secondary">
                             <strong className="text-light d-block mb-1">Hinweis</strong>
                             Um eine Verfälschung der Ergebnisse zu vermeiden, bezieht sich die Diskussion ausschließlich auf die englischen Originalbegriffe vor der Übersetzung durch die MyMemory API (Details siehe <a
-                            href="/Dokumentation">Dokumentation)</a>
+                            href="/dokumentation">Dokumentation)</a>
                         </div>
                     </div>
                 </div>
