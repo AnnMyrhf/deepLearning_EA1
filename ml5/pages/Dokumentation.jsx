@@ -34,7 +34,7 @@ export default function Dokumentation() {
                         ermöglicht ein effizientes State-Management und eine reaktive Benutzeroberfläche.</p>
                     </li>
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
-                        <strong className="text-light">ml5.js (Pflicht)</strong> <p>
+                        <strong className="text-light">ml5.js (Pflicht | v 1.3.1)</strong> <p>
                         High-Level-Schnittstelle zu TensorFlow.js. Es ermöglicht das Laden und Ausführen des
                         MobileNet-Modells direkt im Browser, ohne dass eine serverseitige Verarbeitung nötig ist.
                     </p></li>

@@ -148,6 +148,28 @@ footer {
     font-weight: 700 !important;
 }
 
+/* Verhindert, dass der Toggler im aktiven Zustand einen Rahmen bekommt */
+.navbar-toggler:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.navbar .d-flex {
+    gap: 5px;
+}
+
+/* Verbessert den Abstand im mobilen Menü */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        margin-top: 10px;
+        border-top: 1px solid var(--bs-border-color-translucent);
+    }
+
+    .navbar-nav .nav-link {
+        padding: 12px 0;
+    }
+}
+
 /* =========================================
    4. LINKS & BUTTONS
    ========================================= */
