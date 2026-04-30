@@ -239,7 +239,7 @@ export default function Bilderkennung() {
             <header className="mb-5">
                 <h1 className="display-4 fw-bold text-light mb-4">Bilderkennung</h1>
                 <p className="lead text-secondary mb-3">
-                    Teste die Bildklassifizierung mit ml5.js und MobileNet: Nutze dafür entweder die sechs
+                    Teste die Bildklassifizierung mit ml5.js und dem MobileNet_Modell: Nutze dafür entweder die sechs
                     Beispielbilder oder lade eigene Bilder hoch, um automatisch die Analyse zu starten und sofort die
                     Ergebnisse zu sehen.</p>
                 <nav>

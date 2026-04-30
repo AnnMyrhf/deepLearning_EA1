@@ -58,7 +58,7 @@ export default function Dokumentation() {
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
                         <strong className="text-light">Beispielbilder</strong> <p>Die sechs verwendeten
                         Beispielbilder stammen aus den lizenzfreien Bilddatenbanken <a
-                            href="https://https://unsplash.com" target="_blank">Unsplash</a> und <a
+                            href="https://unsplash.com/de" target="_blank">Unsplash</a> und <a
                             href="https://pixabay.com" target="_blank">Pixabay</a>.</p></li>
                 </ul>
             </div>
@@ -71,14 +71,14 @@ export default function Dokumentation() {
                 <ul className="list-group list-group-flush">
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
                         <strong className="text-light">Hardware-Beschleunigung (WebGL)</strong>
-                        <p> Die Anwendung erzwingt die Nutzung des webgl-Backends (ml5.tf.setBackend('webgl')).
+                        <p> Die Anwendung erzwingt die Nutzung des WebGl-Backends (ml5.tf.setBackend('webgl')).
                             Dadurch wird die
                             Rechenlast an die GPU des Nutzendens delegiert und für eine performante
                             Bildanalyse gesorgt.</p>
                     </li>
                     <li className="list-group-item bg-transparent text-secondary border-secondary px-0 py-3">
                         <strong className="text-light">Asynchrones Lazy Loading</strong>
-                        <p> Das ML-Modell wird mittels await import('ml5') erst bei Bedarf geladen. Das minimiert
+                        <p> Durch den Einsatz von await import('ml5') werden die Bibliothek und das MobileNet-Modell erst bei Bedarf geladen. Das minimiert
                             die initiale Last beim ersten Laden der Seite und verbessert die "Time to
                             Interactive".</p>
                     </li>
@@ -191,10 +191,10 @@ export default function Dokumentation() {
                         technischer Probleme
                     </li>
                     <li className="mb-2"><strong>Austausch mit anderen Kursteilnehmenden:</strong> Allgemeiner
-                        Erfahrungsaustausch sowie Feedback zu UI und Usability
+                        Erfahrungsaustausch sowie Feedback zu GUI und Usability
                     </li>
                     <li className="mb-2"><strong>ChatGPT & Gemini:</strong> Unterstützung beim Debugging,
-                        Code-Refactoring, Erstellung von Kommentaren und CSS-Logik
+                        Code-Refactoring, Erstellung von Kommentaren und UI-Design
                     </li>
                 </ul>
             </div>
